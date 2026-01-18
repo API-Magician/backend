@@ -1,10 +1,9 @@
-import express from "express";
-const private_users = express.Router();
+import express from "express"; // why did i need this
+import { register, login } from "../controllers/authControllers.js";
 
-import { authenticate } from "../middleware/auth.js";
+const router = express.Router();
 
-private_users.use("/home", authenticate, (req, res, next) => {
-  res.send(`Hello ${req.user.email}`);
-});
+router.post("/register", register);
+router.post("/login", login);
 
-export const authenticated = private_users;
+export default router;

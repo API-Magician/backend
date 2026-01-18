@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-let SALT_WORK_FACTOR = 10;
+let saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -28,8 +28,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre("save", async function () {
   if (!this.isModified("password")) return;
 
-  const saltRounds = 10;
-  this.password = await bcrypt.hash(this.password, saltRounds);
+  this.password = await bcrypt.hash(this.password, saltRounds); // bcrypt returns a promise that should be awaited
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {

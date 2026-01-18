@@ -1,9 +1,7 @@
 import jwt from "jsonwebtoken";
-import express from "express";
 import User from "../models/User.js";
-const public_users = express.Router();
 
-public_users.post("/register", async (req, res) => {
+export const register = async (req, res) => {
   const { username, password, email } = req.body;
 
   if (!username || !password || !email)
@@ -27,9 +25,9 @@ public_users.post("/register", async (req, res) => {
   return res
     .status(200)
     .send("User successfully registered. Now you can login");
-});
+};
 
-public_users.post("/login", async (req, res) => {
+export const login = async (req, res) => {
   const { email, password } = req.body;
 
   // Check if email or password is missing
@@ -49,15 +47,14 @@ public_users.post("/login", async (req, res) => {
   // Generate JWT access token
   let accessToken = jwt.sign(
     {
-      email: email, //try later with user id
+      id: candidateUser._id,
     },
     process.env.JWT_SECRET,
-    { expiresIn: 30 * 60 } // 30 min
+    { expiresIn: 30 * 60 }, // 30 min
   );
 
   return res.status(200).json({
     message: "Logged in successfully",
     token: accessToken,
   });
-});
-export const general = public_users;
+};
