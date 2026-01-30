@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-let saltRounds = 10;
+const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
   name: {
