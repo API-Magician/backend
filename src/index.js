@@ -5,9 +5,20 @@ import connectDB from "./config/db.js";
 import projectRoutes from "./routes/projectRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
+import cors from "cors";
+
 dotenv.config();
 connectDB();
 const app = express();
+
+const corsOptions = {
+  origin: "http://localhost:5173",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+
 app.use(express.json());
 
 app.use("/projects", projectRoutes);
