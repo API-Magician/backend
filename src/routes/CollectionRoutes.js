@@ -1,10 +1,14 @@
 import express from "express";
-import { createProject } from "../controllers/projectControllers.js";
+import { createCollection } from "../controllers/collectionControllers.js";
 
 import { authenticate } from "../middleware/auth.js";
 
-const router = express.Router();
 
-router.post("/createCollection", authenticate, createProject);
+
+const router = express.Router({ mergeParams: true });
+
+router.post("/createCollection", authenticate, createCollection);
+
+
 
 export default router;
