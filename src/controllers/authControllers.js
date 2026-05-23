@@ -7,6 +7,12 @@ export const register = async (req, res) => {
   if (!username || !password || !email)
     return res.status(400).send("Unable to register user."); //bad request
 
+  if (password.length < 6) {
+    return res
+      .status(400)
+      .json({ message: "Password must be at least 6 characters." });
+  }
+
   // check dublecate users
   if (
     (await User.findOne({ name: username })) ||
@@ -18,13 +24,15 @@ export const register = async (req, res) => {
   const user = new User({ name: username, password: password, email: email });
   try {
     await user.save();
+    return res
+      .status(200)
+      .send("User successfully registered. Now you can login");
   } catch (err) {
     console.error(err);
+    return res
+      .status(500)
+      .json({ message: "Registration failed. Please try again." });
   }
-
-  return res
-    .status(200)
-    .send("User successfully registered. Now you can login");
 };
 
 export const login = async (req, res) => {
